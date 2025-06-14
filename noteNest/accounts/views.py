@@ -7,6 +7,11 @@ from .models import MyUser
 from django.contrib.auth import authenticate
 # Create your views here.
 
+
+def login(request):
+    return render(request,"auth/login/index.html")
+def signin(request):
+    return render(request,"auth/signin/index.html")
 class signinAPI(APIView):
     def post(self,request):
         serializer=UserSerializer(data=request.data)

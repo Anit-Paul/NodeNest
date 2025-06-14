@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoteNest</title>
+    <link rel="stylesheet" href="{% static 'auth/login/index.css' %}">
+</head>
+
+<body>
+    <div id="customAlert" class="hidden alert"></div>
+    <form action="">
+        <h3>NoteNest</h3>
+        <input type="email" class="email" placeholder="Enter Your Email">
+        <input type="text" class="password" placeholder="Enter Your Password">
+        <button id="btn">Login</button>
+        <a href="{% url 'signin' %}">Don't have an account? sign in</a>
+    </form>
+</body>
+<script src="{% static 'auth/login/index.js' %}"></script>
+
+</html>

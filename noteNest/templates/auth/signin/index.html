@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NodeNest</title>
+    <link rel="stylesheet" href="{% static 'auth/signin/index.css' %}">
+</head>
+
+<body>
+    <div id="customAlert" class="hidden alert"></div>
+    <form action="">
+        <h3>NodeNest</h3>
+        <div class="emailWork">
+            <input type="email" id="email" placeholder="enter your email">
+            <button id="mailBtn">Send OTP</button>
+        </div>
+        <div class="otpWork">
+            <input type="text" id="otp" placeholder="enter your otp" disabled>
+            <button id="verify" disabled>verify OTP</button>
+        </div>
+        <input type="password" id="password" placeholder="enter your password" disabled>
+        <button id="create" disabled>Create Account</button>
+        <a href="{% url 'login' %}">Already have an account? Login</a>
+    </form>
+</body>
+<script src="{% static 'auth/signin/index.js' %}"></script>
+
+</html>
