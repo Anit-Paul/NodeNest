@@ -4,6 +4,7 @@ from .serializers import UserSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from .models import MyUser
+from django.contrib.auth import authenticate
 # Create your views here.
 
 class signinAPI(APIView):
@@ -18,3 +19,13 @@ class signinAPI(APIView):
         users = MyUser.objects.all()
         serializer=UserSerializer(users,many=True)
         return Response({"users":serializer.data},status=status.HTTP_200_OK)
+    
+class loginAPI(APIView):
+    def post(self,request):
+        email=request.data['email']
+        password=request.data['password']
+        user=authenticate(email=email,password=password)
+        if user:
+            return Response({"message":"Login Successful"},status=status.HTTP_200_OK)
+        else:
+            return Response({"message":"Login failed"},status=status.HTTP_400_BAD_REQUEST)
