@@ -1,4 +1,4 @@
-# 📝 NodeNest(Online Note-Taking WebApp)
+# 📝 NoteNest(Online Note-Taking WebApp)
 
 A secure, full-stack web application built with Django and Django Rest Framework for managing personal notes. It allows users to sign up, verify via OTP, log in, and perform CRUD operations on their notes.
 
