@@ -21,8 +21,8 @@ async function authenticate(email, password) {
     body: JSON.stringify({ email, password }), //convert the string into json format
   });
   const data = await response.json();
+
   if (response.ok) {
-    console.log(response);
     return true;
   } else {
     return false;
