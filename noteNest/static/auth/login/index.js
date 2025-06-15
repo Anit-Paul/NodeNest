@@ -11,20 +11,38 @@ function customAlert(msg) {
     alt.classList.add("hidden");
   }, 3000);
 }
-function authenticate(email,password){
-    return password=="1234"
-}
-document.querySelector("#btn").addEventListener("click", (event) => {
-  event.preventDefault();
-  const email = document.querySelector(".email").value.trim();
-  const password = document.querySelector(".password").value.trim();
-  if (email.length == 0 || password.length < 4 || password.length > 10) {
-    customAlert("Please enter a valid email and password!");
+
+async function authenticate(email, password) {
+  const response = await fetch("http://127.0.0.1:8000/auth/loginAPI/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }), //convert the string into json format
+  });
+  const data = await response.json();
+  if (response.ok) {
+    console.log(response);
+    return true;
   } else {
-    if (authenticate(email, password)) {
-      console.log("successful");
-    } else {
-      customAlert("Invalid credential for login!");
-    }
+    return false;
   }
-});
+}
+
+document
+  .querySelector("#btn")
+  .addEventListener("click", async function (event) {
+    event.preventDefault();
+    const email = document.querySelector(".email").value.trim();
+    const password = document.querySelector(".password").value.trim();
+    if (email.length == 0 || password.length < 4 || password.length > 10) {
+      customAlert("Please enter a valid email and password!");
+    } else {
+      const response = await authenticate(email, password);
+      if (response) {
+        console.log("successful");
+      } else {
+        customAlert("Invalid credential for login!");
+      }
+    }
+  });
