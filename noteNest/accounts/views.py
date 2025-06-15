@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import MyUser
 from django.contrib.auth import authenticate
+from .mail import Mail
 # Create your views here.
 
 
@@ -19,7 +20,7 @@ class signinAPI(APIView):
             serializer.save()
             return Response({"message":"Data saved successfully"},status=status.HTTP_201_CREATED)
         else:
-            return Response({"error":serializer.errors},status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error":"email already in use"},status=status.HTTP_400_BAD_REQUEST)
     def get(self,request):
         users = MyUser.objects.all()
         serializer=UserSerializer(users,many=True)
@@ -34,3 +35,16 @@ class loginAPI(APIView):
             return Response({"message":"Login Successful"},status=status.HTTP_200_OK)
         else:
             return Response({"message":"Login failed"},status=status.HTTP_400_BAD_REQUEST)
+
+class mailAPI(APIView):
+    def get(self, request):
+        email = request.query_params.get('email')  # Get email from URL query
+        print(email)
+        if not email:
+            return Response({"message": "email is required"}, status=status.HTTP_400_BAD_REQUEST)
+        mailer = Mail()
+        msg, otp = mailer.send_email(email)
+        if msg:
+            return Response({"message": "success", "otp": otp}, status=status.HTTP_200_OK)
+        else:
+            return Response({"message": "failed", "otp": otp}, status=status.HTTP_400_BAD_REQUEST)
