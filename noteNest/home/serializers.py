@@ -4,7 +4,7 @@ from .models import Note
 class NoteSerializer(ModelSerializer):
     class Meta:
         model=Note
-        fields='__all__'
+        fields=['name','content']
         extra_kwargs = {
-            "user": {'write_only': True}
+            "user": {'read_only': True}
         }
