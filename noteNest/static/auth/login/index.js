@@ -21,7 +21,7 @@ async function authenticate(email, password) {
     body: JSON.stringify({ email, password }), //convert the string into json format
   });
   const data = await response.json();
-
+  console.log(data)
   if (response.ok) {
     return true;
   } else {
@@ -40,7 +40,7 @@ document
     } else {
       const response = await authenticate(email, password);
       if (response) {
-        console.log("successful");
+        console.log("successful")
       } else {
         customAlert("Invalid credential for login!");
       }

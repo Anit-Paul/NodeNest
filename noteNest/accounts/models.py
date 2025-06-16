@@ -19,7 +19,7 @@ class MyUserManager(BaseUserManager):
         return user
 
 class MyUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(max_length=255, unique=True)
+    email = models.EmailField(max_length=50, unique=True)
     is_admin = models.BooleanField(default=False)
 
     objects = MyUserManager()

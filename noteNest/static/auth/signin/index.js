@@ -81,10 +81,12 @@ document
         },
         body: JSON.stringify({ email, password }),
       });
+      const data=await response.json()
       if (response.ok) {
+        console.log(data)
         console.log("account created successfully");
       } else {
-        const data = await response.json();
+        
         customAlert(data.error || "Failed to create account");
         setTimeout(() => {
           location.reload();

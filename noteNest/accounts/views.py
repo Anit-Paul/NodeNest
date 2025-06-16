@@ -6,6 +6,7 @@ from rest_framework import status
 from .models import MyUser
 from django.contrib.auth import authenticate
 from .mail import Mail
+from rest_framework.authtoken.models import Token
 # Create your views here.
 
 
@@ -14,13 +15,17 @@ def login(request):
 def signin(request):
     return render(request,"auth/signin/index.html")
 class signinAPI(APIView):
-    def post(self,request):
-        serializer=UserSerializer(data=request.data)
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response({"message":"Data saved successfully"},status=status.HTTP_201_CREATED)
+            user,token = serializer.save()  # Capture the returned user from create()
+            #token, _ = Token.objects.get_or_create(user=user)
+            return Response({
+                "message": "Data saved successfully",
+                "token": token.key
+            }, status=status.HTTP_201_CREATED)
         else:
-            return Response({"error":"email already in use"},status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     def get(self,request):
         users = MyUser.objects.all()
         serializer=UserSerializer(users,many=True)
@@ -32,7 +37,8 @@ class loginAPI(APIView):
         password=request.data['password']
         user=authenticate(email=email,password=password)
         if user:
-            return Response({"message":"Login Successful"},status=status.HTTP_200_OK)
+            token, _ = Token.objects.get_or_create(user=user)
+            return Response({"message": "Login Successful", "token": token.key}, status=status.HTTP_200_OK)
         else:
             return Response({"message":"Login failed"},status=status.HTTP_400_BAD_REQUEST)
 
