@@ -18,31 +18,41 @@ async function authenticate(email, password) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email, password }), //convert the string into json format
+    body: JSON.stringify({ email, password }),
   });
   const data = await response.json();
-  console.log(data)
-  if (response.ok) {
-    return true;
-  } else {
-    return false;
-  }
+  return { data, ok: response.ok };
 }
-
+async function pushOnHome(data, note) {
+  console.log(data.token)
+  localStorage.setItem("token", data.token); //for not being log out after refresh
+  window.location.href = "/home/";
+}
 document
   .querySelector("#btn")
   .addEventListener("click", async function (event) {
     event.preventDefault();
     const email = document.querySelector(".email").value.trim();
     const password = document.querySelector(".password").value.trim();
+
     if (email.length == 0 || password.length < 4 || password.length > 10) {
       customAlert("Please enter a valid email and password!");
+      return;
+    }
+
+    const { data, ok } = await authenticate(email, password);
+
+    if (ok) {
+      const response = await fetch(`http://127.0.0.1:8000/home/notes/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${data.token}`,
+        },
+      });
+      const note = await response.json();
+      pushOnHome(data, note);
     } else {
-      const response = await authenticate(email, password);
-      if (response) {
-        console.log("successful")
-      } else {
-        customAlert("Invalid credential for login!");
-      }
+      customAlert("Invalid credential for login!");
     }
   });

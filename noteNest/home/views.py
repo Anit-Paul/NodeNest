@@ -5,8 +5,11 @@ from rest_framework import status
 from . models import Note
 from .serializers import NoteSerializer
 from rest_framework.views import APIView
+from django.contrib.auth.decorators import login_required
 
 
+def homeAPI(request):
+    return render(request, "home/index.html")
 class noteAPI(APIView):
     permission_classes=[IsAuthenticated]
     def post(self,request):
