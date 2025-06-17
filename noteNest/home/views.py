@@ -7,6 +7,8 @@ from .serializers import NoteSerializer
 from rest_framework.views import APIView
 from django.contrib.auth.decorators import login_required
 
+def addNoteAPI(request):
+    return render(request,"home/addNode.html")
 
 def homeAPI(request):
     return render(request, "home/index.html")

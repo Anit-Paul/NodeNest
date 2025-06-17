@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NodeNest</title>
+    <link rel="stylesheet" href="{% static 'home/addNode.css' %}" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="heading">
+        <input type="text" placeholder="enter the name..." />
+        <button id="save">Save</button>
+      </div>
+      <textarea
+        name="noteContent"
+        id="noteContent"
+        placeholder="enter your note..."
+      ></textarea>
+    </div>
+  </body>
+  <script src="{% static 'home/addNode.js' %}"></script>
+</html>
