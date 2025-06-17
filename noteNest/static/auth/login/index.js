@@ -23,7 +23,7 @@ async function authenticate(email, password) {
   const data = await response.json();
   return { data, ok: response.ok };
 }
-async function pushOnHome(data, note) {
+async function pushOnHome(data) {
   console.log(data.token)
   localStorage.setItem("token", data.token); //for not being log out after refresh
   window.location.href = "/home/";
@@ -43,15 +43,7 @@ document
     const { data, ok } = await authenticate(email, password);
 
     if (ok) {
-      const response = await fetch(`http://127.0.0.1:8000/home/notes/`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${data.token}`,
-        },
-      });
-      const note = await response.json();
-      pushOnHome(data, note);
+      pushOnHome(data);
     } else {
       customAlert("Invalid credential for login!");
     }
