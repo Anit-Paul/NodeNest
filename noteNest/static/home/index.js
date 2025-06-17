@@ -14,12 +14,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   const note = await response.json();
+  console.log(note)
   const parent = document.querySelector(".notes");
   parent.innerHTML = "";
 
   note.data.forEach((item) => {
     const note_item = document.createElement("div");
     note_item.className = "note-item";
+    note_item.dataset.noteId = item.id;
 
     const note_texts = document.createElement("div");
     note_texts.className = "note-texts";
@@ -40,6 +42,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const dropdown = document.createElement("div");
     dropdown.className = "dropdown hidden";
 
+    const viewBtn = document.createElement("button");
+    viewBtn.className = "view-btn";
+    viewBtn.textContent = "View";
+
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "delete-btn";
     deleteBtn.textContent = "Delete";
@@ -48,6 +54,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     encryptBtn.className = "encrypt-btn";
     encryptBtn.textContent = "Encrypt";
 
+    dropdown.appendChild(viewBtn);
     dropdown.appendChild(deleteBtn);
     dropdown.appendChild(encryptBtn);
 
@@ -64,9 +71,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
     // Delete handler
-    deleteBtn.addEventListener("click", () => {
+    deleteBtn.addEventListener("click", async () => {
       if (confirm("Are you sure you want to delete this note?")) {
-        note_item.remove();
+        const noteId = note_item.dataset.noteId; // Get the note ID
+        const token = localStorage.getItem("token");
+        const response = await fetch("http://127.0.0.1:8000/home/notes/", {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+          body: JSON.stringify({ id: noteId }),
+        });
+        if (response.ok) {
+          note_item.remove();
+        } else {
+          alert("Failed to delete note");
+        }
       }
     });
   });

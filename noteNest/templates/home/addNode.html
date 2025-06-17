@@ -10,15 +10,15 @@
   <body>
     <div class="container">
       <div class="heading">
-        <input type="text" placeholder="enter the name..." />
+        <input type="text" id="name" name="name" placeholder="enter the name..." />
         <button id="save">Save</button>
       </div>
       <textarea
-        name="noteContent"
+        name="content"
         id="noteContent"
         placeholder="enter your note..."
       ></textarea>
     </div>
   </body>
-  <script src="{% static 'home/addNode.js' %}"></script>
+  <script src="{% static 'home/addNode.js' %}?v=2"></script>
 </html>

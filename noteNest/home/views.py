@@ -25,3 +25,14 @@ class noteAPI(APIView):
         data=Note.objects.filter(user=request.user)
         serializer = NoteSerializer(data, many=True)
         return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+    def delete(self,request):
+        note_id = request.data.get("id")
+        if not note_id:
+            return Response({"msg": "Note ID is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            note = Note.objects.get(id=note_id, user=request.user)
+            note.delete()
+            return Response({"msg": "Note deleted successfully"}, status=status.HTTP_200_OK)
+        except Note.DoesNotExist:
+            return Response({"msg": "Note not found"}, status=status.HTTP_404_NOT_FOUND)
