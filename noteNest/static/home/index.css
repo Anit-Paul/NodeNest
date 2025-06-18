@@ -48,6 +48,21 @@ body {
   background-color: #346ae0;
 }
 
+#logout {
+  background-color: #3f80ff;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+#logout:hover {
+  background-color: #346ae0;
+}
+
 .searchBar input {
   width: 100%;
   padding: 0.9rem 1.2rem;
@@ -96,7 +111,6 @@ body {
   position: relative;
   font-size: 1.4rem;
   cursor: pointer;
-  user-select: none;
 }
 
 .dropdown {

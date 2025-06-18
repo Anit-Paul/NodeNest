@@ -4,7 +4,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     window.location.href = "/auth/login";
     return;
   }
-
+  document.querySelector("#logout").addEventListener("click", async (e) => {
+    localStorage.removeItem("token");
+    location.reload(true);
+  });
   const response = await fetch("http://127.0.0.1:8000/home/notes/", {
     method: "GET",
     headers: {
@@ -14,7 +17,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   const note = await response.json();
-  console.log(note)
   const parent = document.querySelector(".notes");
   parent.innerHTML = "";
 
@@ -89,6 +91,11 @@ document.addEventListener("DOMContentLoaded", async () => {
           alert("Failed to delete note");
         }
       }
+    });
+    viewBtn.addEventListener("click", async (e) => {
+      const parent = e.target.closest(".note-item");
+      const id = parent.dataset.noteId;
+      window.location.href = `/home/notes/views/?id=${id}`;
     });
   });
 

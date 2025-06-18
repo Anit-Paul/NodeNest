@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import noteAPI,homeAPI,addNoteAPI
+from .views import noteAPI,homeAPI,addNoteAPI,noteview
 urlpatterns = [
     path("",homeAPI,name="homeAPI"),
     path("notes/",noteAPI.as_view(),name="noteAPI"),
+    path("notes/views/",noteview,name="noteview"),
     path("addnote/",addNoteAPI,name="addNoteAPI"),
 ]

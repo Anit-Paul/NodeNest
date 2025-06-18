@@ -5,7 +5,13 @@ from rest_framework import status
 from . models import Note
 from .serializers import NoteSerializer
 from rest_framework.views import APIView
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
+
+def noteview(request):
+    id=request.GET.get("id")
+    note = Note.objects.get(id=id)
+    print(note)
+    return render(request, "home/update.html", {"note": note})
 
 def addNoteAPI(request):
     return render(request,"home/addNode.html")
@@ -36,3 +42,16 @@ class noteAPI(APIView):
             return Response({"msg": "Note deleted successfully"}, status=status.HTTP_200_OK)
         except Note.DoesNotExist:
             return Response({"msg": "Note not found"}, status=status.HTTP_404_NOT_FOUND)
+    def patch(self,request):
+        try:
+            note_id = request.data.get("id")
+            note = Note.objects.get(id=note_id, user=request.user)
+        except Note.DoesNotExist:
+            return Response({"message": "Note not found"}, status=status.HTTP_404_NOT_FOUND)
+        #print(request.data)
+        serializer = NoteSerializer(note, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Data updated successfully"}, status=status.HTTP_202_ACCEPTED)
+        else:
+            return Response({"message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)

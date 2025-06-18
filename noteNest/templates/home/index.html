@@ -1,4 +1,4 @@
-{% load static  %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,33 +7,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NodeNest</title>
     <link rel="stylesheet" href="{% static 'home/index.css' %}">
+
 </head>
 
 <body>
     <div class="container">
         <div class="div1">
             <h4>My Notes</h4>
-            <button id="newNote">New Note</button>
+            <div class="btn">
+                <button id="newNote">New Note</button>
+                <button id="logout">Log out</button>
+            </div>
         </div>
         <div class="searchBar">
             <input type="text" placeholder="Search notes..">
         </div>
         <div class="notes">
-            <div class="note-item">
-                <div class="note-texts">
-                    <div class="note-title">How to create a design system</div>
-                    <div class="note-time">2 days ago</div>
-                </div>
-                <div class="note-menu">
-                    ⋯
-                    <div class="dropdown hidden">
-                        <button class="delete-btn" id="delete">Delete</button>
-                        <button class="encrypt-btn" id="encrypt">Encrypt</button>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div>
 </body>
 <script src="{% static 'home/index.js' %}?v=2"></script>
+
 </html>
